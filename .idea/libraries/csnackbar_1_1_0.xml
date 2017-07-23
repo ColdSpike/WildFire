@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="csnackbar-1.1.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/34c0719d117dfa7ddc564249edebd6a93047a8ea/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/34c0719d117dfa7ddc564249edebd6a93047a8ea/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.chootdev/csnackbar/1.1.0/2f0badd8839e3a1ffc80d06cb3a5cac1634a432e/csnackbar-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

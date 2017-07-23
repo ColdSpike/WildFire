@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Material Dialog theme. -->
+        <item name="md_positive_color">@color/colorPrimary</item>
+        <item name="md_negative_color">@color/colorAccent</item>
+    </style>
+    <!-- Text appearance for counter overflow -->
+    <style name="counterOverflowText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
+</resources>

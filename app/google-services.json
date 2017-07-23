@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "473618377304",
+    "firebase_url": "https://chatla-1a62a.firebaseio.com",
+    "project_id": "chatla-1a62a",
+    "storage_bucket": "chatla-1a62a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473618377304:android:27b14f8db91fb654",
+        "android_client_info": {
+          "package_name": "com.example.makrandpawar.chatla"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473618377304-17fn5psveccurc1ajc2a0hgv29i1o0v5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.makrandpawar.chatla",
+            "certificate_hash": "efeebfc5d8e03279f6ce14bc3b0067cd81d4c5b9"
+          }
+        },
+        {
+          "client_id": "473618377304-s3hpufisjl9tuiv3678rba2mi98esf96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0dfLwbkpXt17IV__ubmc_OB_73tQZGXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473618377304-s3hpufisjl9tuiv3678rba2mi98esf96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

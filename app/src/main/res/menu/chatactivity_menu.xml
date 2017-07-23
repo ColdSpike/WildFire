@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/chatactivity_menu_video"
+        android:icon="@drawable/ic_video_library_black_24dp"
+        android:title="Video"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/chatactivity_menu_image"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_image_black_24dp"
+        android:title="Attachment"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/chatactivity_menu_profile"
+        android:title="Profile" />
+</menu>

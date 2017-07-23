@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.makrandpawar.chatla.StatusActivity">
+
+    <include
+        android:id="@+id/status_tool_bar"
+        layout="@layout/app_bar_layout" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/status_txt_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_tool_bar"
+        android:layout_margin="20dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Status" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/status_btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/status_txt_status"
+        android:layout_below="@+id/status_txt_status"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Save Status"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout>

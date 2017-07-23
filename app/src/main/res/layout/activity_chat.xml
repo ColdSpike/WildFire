@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    tools:context="com.example.makrandpawar.chatla.ChatActivity">
+
+    <include
+        android:id="@+id/chatactivity_toolbar"
+        layout="@layout/app_bar_layout" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/chatactivity_messagearea"
+        android:layout_below="@id/chatactivity_toolbar"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:focusableInTouchMode="true">
+
+        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swiperefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chatsactivity_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatactivity_messagearea"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/bottomlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="50dp"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                android:paddingBottom="15dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="20dp"
+                android:background="@drawable/input">
+
+                <EditText
+                    android:id="@+id/chatactivity_edt_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="12dp"
+                    android:hint="Your Message Here..."
+                    android:maxLines="3"
+                    android:scrollbars="vertical"
+                    android:inputType="textMultiLine"
+                    android:textSize="18sp"
+                    android:textColorHint="#c4c0bd"
+                    android:background="@null"/>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/chatactivity_send"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="@mipmap/blue_circle"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@mipmap/input_send"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/chatactivity_messagearea"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--app:cardCornerRadius="10dp"-->
+        <!--app:contentPadding="10dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/chatactivity_edt_message"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:hint="Your Message..." />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/chatactivity_send"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="7"-->
+                <!--android:background="@drawable/ic_action_send" />-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.makrandpawar.chatla.RequestsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/default_avatar"
+                android:id="@+id/requestfragment_norequest_image"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/requestfragment_norequest_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO PENDING FRIEND REQUESTS"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/requestfragment_norequest_image"
+                android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/requestfragment_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</FrameLayout>
