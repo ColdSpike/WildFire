@@ -1,7 +1,9 @@
 package com.example.makrandpawar.chatla;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -27,9 +29,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 import com.irozon.sneaker.Sneaker;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+
+import id.zelory.compressor.Compressor;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -118,24 +126,40 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     if (task.isSuccessful()){
-                                        String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        final String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(currentUid);
 
-                                        HashMap<String,String> userMap = new HashMap<String, String>();
-                                        userMap.put("displayname",displayName.trim());
-                                        userMap.put("status","Hi! I'm Using ChatLa :)");
-                                        userMap.put("image","default");
-                                        userMap.put("thumb_image","default");
-                                        userMap.put("tokenid", FirebaseInstanceId.getInstance().getToken());
+                                        final Uri defaultImage = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                                                "://" + getResources().getResourcePackageName(R.drawable.default_avatar)
+                                                + '/' + getResources().getResourceTypeName(R.drawable.default_avatar)
+                                                + '/' + getResources().getResourceEntryName(R.drawable.default_avatar) );
 
-                                        mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        FirebaseStorage.getInstance().getReference().child("profile_images").child(currentUid).child("dp.jpg").putFile(defaultImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()){
-                                                    registerProgress.dismiss();
-                                                    Sneaker.with(RegisterActivity.this).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT).setTitle("Success").setMessage("A Verification Email has been sent to your Email Id. Please verify to login.").setDuration(15000).sneakSuccess();
-                                                    FirebaseAuth.getInstance().signOut();
-                                                }
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                final String imageUrl = taskSnapshot.getDownloadUrl().toString();
+                                                FirebaseStorage.getInstance().getReference().child("profile_images").child(currentUid).child("thumb.jpg").putFile(defaultImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        HashMap<String,String> userMap = new HashMap<String, String>();
+                                                        userMap.put("displayname",displayName.trim());
+                                                        userMap.put("status","Hi! I'm Using ChatLa :)");
+                                                        userMap.put("image",imageUrl);
+                                                        userMap.put("thumb_image",taskSnapshot.getDownloadUrl().toString());
+                                                        userMap.put("tokenid", FirebaseInstanceId.getInstance().getToken());
+
+                                                        mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    registerProgress.dismiss();
+                                                                    Sneaker.with(RegisterActivity.this).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT).setTitle("Success").setMessage("A Verification Email has been sent to your Email Id. Please verify to login.").setDuration(15000).sneakSuccess();
+                                                                    FirebaseAuth.getInstance().signOut();
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                });
                                             }
                                         });
                                     }else {

@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -241,15 +242,25 @@ public class ChatActivity extends AppCompatActivity {
                 map.put("seen", "no");
                 if (messageType == 1)
                     map.put("type", "image");
+                else if (messageType == 2)
+                    map.put("type", "video");
                 else
                     map.put("type", "text");
 
                 mDatabase.push().setValue(map);
 
-                if (messageType == 1)
+                if (messageType == 1) {
                     mDatabase2.setValue("image");
-                else
+                    mDatabase2.getParent().getParent().getParent().child(chatWith).child(chatRoom).child("lastmessage").setValue("image");
+                }
+                else if (messageType == 2) {
+                    mDatabase2.setValue("video");
+                    mDatabase2.getParent().getParent().getParent().child(chatWith).child(chatRoom).child("lastmessage").setValue("video");
+                }
+                else {
                     mDatabase2.setValue(message);
+                    mDatabase2.getParent().getParent().getParent().child(chatWith).child(chatRoom).child("lastmessage").setValue(message);
+                }
 
                 messageArea.setText("");
             }
@@ -280,24 +291,6 @@ public class ChatActivity extends AppCompatActivity {
             public void onBindViewHolder(final ChatActivityViewHolder viewHolder, final int position) {
                 super.onBindViewHolder(viewHolder, position);
 
-//                viewHolder.cardViewLeft.setOnLongClickListener(new View.OnLongClickListener() {
-//                    @Override
-//                    public boolean onLongClick(View v) {
-//                        new MaterialDialog.Builder(ChatActivity.this)
-//                                .title("Delete?")
-//                                .titleColor(Color.RED)
-//                                .positiveText("DELETE")
-//                                .negativeText("CANCEL")
-//                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                                    @Override
-//                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                                        mRecyclerAdapter.getRef(position).setValue(null);
-//                                    }
-//                                })
-//                                .show();
-//                        return true;
-//                    }
-//                });
                 viewHolder.cardViewText.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -326,18 +319,6 @@ public class ChatActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-//                viewHolder.cardViewImageLeft.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent(ChatActivity.this, ViewImageMessage.class);
-//                        intent.putExtra("IMAGEMESSAGE", viewHolder.message);
-//                        intent.putExtra("CHATROOMTOIMAGE", chatRoom);
-//                        intent.putExtra("CHATWITHTOIMAGE", chatWith);
-//                        startActivity(intent);
-//                    }
-//                });
-
-
             }
         };
 
@@ -346,44 +327,37 @@ public class ChatActivity extends AppCompatActivity {
 
     public static class ChatActivityViewHolder extends RecyclerView.ViewHolder {
         View mView;
-        // private TextView msgLeft;
         private TextView msgText;
-        //private CardView cardViewLeft;
         private CardView cardViewText;
-        //  private TextView imgTimeLeft;
         private TextView imgTime;
-        //  private TextView msgTimeLeft;
         private TextView msgTimeText;
-        //  private ImageView msgImageLeft;
         private ImageView msgImage;
-        // private CardView cardViewImageLeft;
         private CardView cardViewImage;
         private String message;
+        private CardView cardViewVideo;
+        private TextView videoTime;
+        private VideoView videoView;
 
 
         public ChatActivityViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            //  msgLeft = (TextView) mView.findViewById(R.id.chatactivity_message_left);
             msgText = (TextView) mView.findViewById(R.id.chatactivity_message_right);
-            //cardViewLeft = (CardView) mView.findViewById(R.id.chatactivity_cardview_left);
             cardViewText = (CardView) mView.findViewById(R.id.chatactivity_cardview_right);
-            //msgTimeLeft = (TextView) mView.findViewById(R.id.chatactivity_time_left);
             msgTimeText = (TextView) mView.findViewById(R.id.chatactivity_time_right);
-            // imgTimeLeft = (TextView) mView.findViewById(R.id.chatactivity_time_image_left);
             imgTime = (TextView) mView.findViewById(R.id.chatactivity_time_image_right);
-            //msgImageLeft = (ImageView) mView.findViewById(R.id.chatactivity_imageleft);
             msgImage = (ImageView) mView.findViewById(R.id.chatactivity_imageright);
-            //cardViewImageLeft = (CardView) mView.findViewById(R.id.chatactivity_cardview_imageleft);
             cardViewImage = (CardView) mView.findViewById(R.id.chatactivity_cardview_imageright);
+            videoView = (VideoView) mView.findViewById(R.id.chatactivity_video);
+            videoTime = (TextView) mView.findViewById(R.id.chatactivity_time_video);
+            cardViewVideo = (CardView) mView.findViewById(R.id.chatactivity_cardview_video);
         }
 
         public void setMessage(String message, String from, String time, String type, String seen, Context context) {
             this.message = message;
             cardViewImage.setVisibility(View.GONE);
-            // cardViewImageLeft.setVisibility(View.GONE);
-            //cardViewLeft.setVisibility(View.GONE);
             cardViewText.setVisibility(View.GONE);
+            cardViewVideo.setVisibility(View.GONE);
 
 
             if (from.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
@@ -394,7 +368,7 @@ public class ChatActivity extends AppCompatActivity {
                     Picasso.with(context).load(message).resize(300, 300).placeholder(context.getDrawable(R.drawable.default_avatar)).into(msgImage);
                     imgTime.setText(time);
                     cardViewImage.setLayoutParams(getCardViewParams(true));
-                }else if (type.equals("text")){
+                } else if (type.equals("text")) {
                     cardViewText.setVisibility(View.VISIBLE);
                     msgText.setBackground(context.getDrawable(R.drawable.in_message_bg));
                     msgText.setText(message);
@@ -402,6 +376,15 @@ public class ChatActivity extends AppCompatActivity {
                     msgTimeText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                     msgText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                     cardViewText.setLayoutParams(getCardViewParams(true));
+                } else if (type.equals("video")){
+                    cardViewVideo.setVisibility(View.VISIBLE);
+                    videoView.setBackground(context.getDrawable(R.drawable.in_message_bg));
+                    videoTime.setText(time);
+                    cardViewVideo.setLayoutParams(getCardViewParams(true));
+                    Uri uri = Uri.parse(message);
+                    videoView.setVideoURI(uri);
+                    videoView.requestFocus();
+                    videoView.start();
                 }
             } else {
                 if (type.equals("image")) {
@@ -410,7 +393,7 @@ public class ChatActivity extends AppCompatActivity {
                     Picasso.with(context).load(message).resize(300, 300).placeholder(context.getDrawable(R.drawable.default_avatar)).into(msgImage);
                     imgTime.setText(time);
                     cardViewImage.setLayoutParams(getCardViewParams(false));
-                }else if (type.equals("text")){
+                } else if (type.equals("text")) {
                     cardViewText.setVisibility(View.VISIBLE);
                     msgText.setBackground(context.getDrawable(R.drawable.out_message_bg));
                     msgText.setText(message);
@@ -418,44 +401,24 @@ public class ChatActivity extends AppCompatActivity {
                     msgTimeText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     msgText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     cardViewText.setLayoutParams(getCardViewParams(false));
+                }else if (type.equals("video")){
+                    cardViewVideo.setVisibility(View.VISIBLE);
+                    videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
+                    videoTime.setText(time);
+                    cardViewVideo.setLayoutParams(getCardViewParams(false));
+                    Uri uri = Uri.parse(message);
+                    videoView.setVideoURI(uri);
+                    videoView.requestFocus();
+                    videoView.start();
                 }
             }
-
-
-//            if (type.equals("image")) {
-//                if (from.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-//                    cardViewImage.setVisibility(View.VISIBLE);
-//                    Picasso.with(context).load(message).resize(300, 300).into(msgImage);
-//                    imgTime.setText(time);
-//                } else if (message.equals("")) {
-//                    cardViewImageLeft.setVisibility(View.GONE);
-//                    cardViewImage.setVisibility(View.GONE);
-//                } else {
-//                    cardViewImageLeft.setVisibility(View.VISIBLE);
-//                    Picasso.with(context).load(message).resize(300, 300).into(msgImageLeft);
-//                    imgTimeLeft.setText(time);
-//                }
-//            } else if (type.equals("text")) {
-//                if (from.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-//                    cardViewText.setVisibility(View.VISIBLE);
-//                    msgText.setText(message);
-//                    msgTimeText.setText(time);
-//                } else if (message.equals("")) {
-//                    cardViewLeft.setVisibility(View.GONE);
-//                    cardViewText.setVisibility(View.GONE);
-//                } else {
-//                    cardViewLeft.setVisibility(View.VISIBLE);
-//                    msgTimeLeft.setText(time);
-//                    msgLeft.setText(message);
-//                }
-//            }
         }
 
         private ViewGroup.LayoutParams getCardViewParams(boolean isRight) {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) cardViewText.getLayoutParams();
-            if (isRight){
+            if (isRight) {
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-            }else {
+            } else {
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
             }
             return layoutParams;
@@ -588,14 +551,8 @@ public class ChatActivity extends AppCompatActivity {
                     mStorageRef.child("message_video").child(chatRoom).child(UUID.randomUUID().toString()).putFile(Uri.fromFile(file)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // get video download url and update database
-                            //
-                            //
-                            //
-                            //
-                            //
-                            //
-                            //
+                            String url = taskSnapshot.getDownloadUrl().toString();
+                            sendMessage(url, 2);
                         }
                     });
                 }
