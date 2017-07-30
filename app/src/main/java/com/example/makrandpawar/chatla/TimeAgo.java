@@ -14,29 +14,18 @@ public class TimeAgo extends Application {
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
 
-    public static String getTimeAgo(long time) {
+    public static String getTimeAgo(long time, long serverTime) {
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
         }
-        final long[] now = new long[1];
-         FirebaseDatabase.getInstance().getReference().child("ServerTime").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                now[0] = Long.parseLong(dataSnapshot.getValue().toString());
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        if (time > now[0] || time <= 0) {
+        if (time > serverTime || time <= 0) {
             return null;
         }
 
 
-        final long diff = now[0] - time;
+        final long diff = serverTime - time;
         if (diff < MINUTE_MILLIS) {
             return "just now";
         } else if (diff < 2 * MINUTE_MILLIS) {

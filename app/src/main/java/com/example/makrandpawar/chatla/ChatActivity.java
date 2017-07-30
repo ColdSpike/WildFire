@@ -119,12 +119,24 @@ public class ChatActivity extends AppCompatActivity {
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("statusonline").getValue().toString().equals("true"))
-                    getSupportActionBar().setSubtitle("online");
-                else {
-                    getSupportActionBar().setSubtitle(TimeAgo.getTimeAgo(Long.parseLong(dataSnapshot.child("statusonline").getValue().toString())));
-                }
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                FirebaseDatabase.getInstance().getReference().child("ServerTime").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot1) {
+                        if (dataSnapshot.child("statusonline").getValue().toString().equals("true"))
+                            getSupportActionBar().setSubtitle("online");
+                        else {
+                            getSupportActionBar().setSubtitle(TimeAgo.getTimeAgo(Long.parseLong(dataSnapshot.child("statusonline").getValue().toString()),Long.parseLong(dataSnapshot1.getValue().toString())));
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
             @Override

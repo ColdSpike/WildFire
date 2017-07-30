@@ -15,13 +15,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/FriendsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/FriendsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java" />
     </list>
     <ignored path="ChatLa.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,51 +52,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UsersFriendsFragmentModelClass.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/UsersFriendsFragmentModelClass.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FriendsFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/FriendsFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="146" column="122" selection-start-line="146" selection-start-column="122" selection-end-line="146" selection-end-column="122" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatsFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatsFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3">
-              <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="265" column="164" selection-start-line="265" selection-start-column="164" selection-end-line="265" selection-end-column="164" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TimeAgo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TimeAgo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="239">
+              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="129" column="25" selection-start-line="129" selection-start-column="25" selection-end-line="129" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -2336,7 +2305,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ViewProfileActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/getTimeAgo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatLa.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/NotificationClass.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/UsersModelClass.java" />
@@ -2349,6 +2317,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/FriendsFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatsFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatActivity.java" />
       </list>
     </option>
@@ -2800,7 +2769,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2848,15 +2817,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java</url>
-          <line>38</line>
-          <properties />
-          <option name="timeStamp" value="140" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="157" />
+      <option name="time" value="162" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3230,22 +3191,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/FriendsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="146" column="122" selection-start-line="146" selection-start-column="122" selection-end-line="146" selection-end-column="122" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3">
@@ -3254,10 +3199,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/FriendsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="146" column="122" selection-start-line="146" selection-start-column="122" selection-end-line="146" selection-end-column="122" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/ChatActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="265" column="164" selection-start-line="265" selection-start-column="164" selection-end-line="265" selection-end-column="164" />
+        <state relative-caret-position="406">
+          <caret line="129" column="25" selection-start-line="129" selection-start-column="25" selection-end-line="129" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/makrandpawar/chatla/TimeAgo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
           <folding />
         </state>
       </provider>
