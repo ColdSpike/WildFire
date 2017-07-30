@@ -91,9 +91,11 @@ public class ChatsFragment extends Fragment {
                 chatRoomLastMessage.clear();
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    chatRooms.add(dataSnapshot1.getKey());
-                    chatRoomWith.add(dataSnapshot1.child("with").getValue().toString());
-                    chatRoomLastMessage.add(dataSnapshot1.child("lastmessage").getValue().toString());
+                    if (dataSnapshot1.exists()) {
+                        chatRooms.add(dataSnapshot1.getKey());
+                        chatRoomWith.add(dataSnapshot1.child("with").getValue().toString());
+                        chatRoomLastMessage.add(dataSnapshot1.child("lastmessage").getValue().toString());
+                    }
 
                 }
                 if (chatRooms.size() > 0) {
@@ -170,6 +172,7 @@ public class ChatsFragment extends Fragment {
         public void onBindViewHolder(final ChatsFragmentViewHolder holder, final int position) {
             holder.setRoomName(chatRoomName.get(position), chatRoomLastMessage.get(position));
             holder.setRoomImage(chatRoomImage.get(position));
+
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -207,6 +210,7 @@ public class ChatsFragment extends Fragment {
                                     });
                                     databaseReference.child("chats").child(chatRooms.get(position)).child("invalid").child("from").setValue("not dummy");
                                     databaseReference.child("chats").child(chatRooms.get(position)).child("invalid").child("message").setValue("This chat has been deleted by other user");
+
                                     databaseReference.child("friends").child(chatRoomWith.get(position)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("chatactive").setValue(0);
                                     databaseReference.child("friends").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(chatRoomWith.get(position)).child("chatactive").setValue(0);
                                 }

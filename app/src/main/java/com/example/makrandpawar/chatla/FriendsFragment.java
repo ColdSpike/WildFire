@@ -84,10 +84,12 @@ public class FriendsFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(FriendsFragmentViewHolder viewHolder, UsersFriendsFragmentModelClass model, int position) {
-                viewHolder.setName(model.getName());
-                viewHolder.setImage(getActivity().getApplicationContext(), model.getImage());
-                viewHolder.chatActive = model.getChatactive();
-                viewHolder.chatRoom = model.getChatroom();
+                if (model.getName()!=null  && model.getChatroom()!=null && model.getImage()!=null) {
+                    viewHolder.setName(model.getName());
+                    viewHolder.setImage(getActivity().getApplicationContext(), model.getImage());
+                    viewHolder.chatActive = model.getChatactive();
+                    viewHolder.chatRoom = model.getChatroom();
+                }
             }
 
             @Override
@@ -122,10 +124,11 @@ public class FriendsFragment extends Fragment {
                         } else {
                             mDatabase.child(friendRef).child("chatactive").setValue(1);
                             mDatabase.getParent().child(friendRef).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("chatactive").setValue(1);
+
                             final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
                             Map<String, String> map = new HashMap<String, String>();
-                            map.put("lastmessage", "started a new chat.");
+                            map.put("lastmessage", "New Chat Started.");
                             map.put("with", friendRef);
 
                             final String key = databaseReference.child("userchats").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
@@ -137,8 +140,11 @@ public class FriendsFragment extends Fragment {
                                             databaseReference.child("chats").child(key).child("invalid").child("from").setValue("dummy");
                                             databaseReference.child("chats").child(key).child("invalid").child("message").setValue("dummy");
 
-                                            databaseReference.child("userchats").child(friendRef).child(key).child("with").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                            databaseReference.child("userchats").child(friendRef).child(key).child("lastmessage").setValue("has started a chat.");
+                                            Map<String,String> map1 = new HashMap();
+                                            map1.put("lastmessage", "has started a new chat.");
+                                            map1.put("with", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                            databaseReference.child("userchats").child(friendRef).child(key).setValue(map1);
 
                                             databaseReference.child("friends").child(friendRef).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("chatroom").setValue(key);
                                             databaseReference.child("friends").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(friendRef).child("chatroom").setValue(key).addOnCompleteListener(new OnCompleteListener<Void>() {

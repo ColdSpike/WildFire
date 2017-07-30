@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendToStartActivity() {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
-        startActivity(startIntent);
-        finish();
-    }
+    startActivity(startIntent);
+    finish();
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

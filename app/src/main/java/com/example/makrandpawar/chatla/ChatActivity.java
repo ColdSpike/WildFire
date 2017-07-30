@@ -233,7 +233,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String message, int messageType) {
-        if (!chatStillValid.equals("not dumy")) {
+        if (!chatStillValid.equals("not dummy")) {
             if (!message.equals("")) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("message", message);
@@ -252,12 +252,10 @@ public class ChatActivity extends AppCompatActivity {
                 if (messageType == 1) {
                     mDatabase2.setValue("image");
                     mDatabase2.getParent().getParent().getParent().child(chatWith).child(chatRoom).child("lastmessage").setValue("image");
-                }
-                else if (messageType == 2) {
+                } else if (messageType == 2) {
                     mDatabase2.setValue("video");
                     mDatabase2.getParent().getParent().getParent().child(chatWith).child(chatRoom).child("lastmessage").setValue("video");
-                }
-                else {
+                } else {
                     mDatabase2.setValue(message);
                     mDatabase2.getParent().getParent().getParent().child(chatWith).child(chatRoom).child("lastmessage").setValue(message);
                 }
@@ -265,7 +263,7 @@ public class ChatActivity extends AppCompatActivity {
                 messageArea.setText("");
             }
         } else {
-            Sneaker.with(ChatActivity.this).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT).setTitle("Error!").setMessage("This chat has been deleted by other user.").setDuration(10000).sneakError();
+            Sneaker.with(ChatActivity.this).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT).setTitle("Error!").setMessage("Can not send message to this chat anymore!").setDuration(10000).sneakError();
         }
     }
 
@@ -278,13 +276,17 @@ public class ChatActivity extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(ChatActivityViewHolder viewHolder, UsersChatActivityModelClass model, int position) {
-                if (!model.getFrom().equals("dummy")) {
+                if (model.getFrom().equals("not dummy")) {
+                    viewHolder.setMessage("CHAT NO LONGER ACTIVE!", "other user", "", "text", "", ChatActivity.this);
+                } else if (model.getFrom().equals("dummy")) {
+                    viewHolder.setMessage("", "", "", "", "", ChatActivity.this);
+                } else {
                     Date date = new Date(Long.parseLong(model.getTimestamp()));
                     DateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
                     format.setTimeZone(TimeZone.getDefault());
                     String time = format.format(date);
                     viewHolder.setMessage(model.getMessage(), model.getFrom(), time, model.getType(), model.getSeen(), ChatActivity.this);
-                } else viewHolder.setMessage("", "", "", "", "", ChatActivity.this);
+                }
             }
 
             @Override
@@ -361,8 +363,9 @@ public class ChatActivity extends AppCompatActivity {
 
 
             if (from.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                if (type == null) {
 
-                if (type.equals("image")) {
+                } else if (type.equals("image")) {
                     cardViewImage.setVisibility(View.VISIBLE);
                     msgImage.setBackground(context.getDrawable(R.drawable.in_message_bg));
                     Picasso.with(context).load(message).resize(300, 300).placeholder(context.getDrawable(R.drawable.default_avatar)).into(msgImage);
@@ -376,7 +379,7 @@ public class ChatActivity extends AppCompatActivity {
                     msgTimeText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                     msgText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                     cardViewText.setLayoutParams(getCardViewParams(true));
-                } else if (type.equals("video")){
+                } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
                     videoView.setBackground(context.getDrawable(R.drawable.in_message_bg));
                     videoTime.setText(time);
@@ -387,7 +390,9 @@ public class ChatActivity extends AppCompatActivity {
                     videoView.start();
                 }
             } else {
-                if (type.equals("image")) {
+                if (type == null) {
+
+                } else if (type.equals("image")) {
                     cardViewImage.setVisibility(View.VISIBLE);
                     msgImage.setBackground(context.getDrawable(R.drawable.out_message_bg));
                     Picasso.with(context).load(message).resize(300, 300).placeholder(context.getDrawable(R.drawable.default_avatar)).into(msgImage);
@@ -401,7 +406,7 @@ public class ChatActivity extends AppCompatActivity {
                     msgTimeText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     msgText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     cardViewText.setLayoutParams(getCardViewParams(false));
-                }else if (type.equals("video")){
+                } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
                     videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
                     videoTime.setText(time);
