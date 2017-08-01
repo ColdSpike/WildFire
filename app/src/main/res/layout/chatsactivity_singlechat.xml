@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2.5dp"
@@ -56,8 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         app:cardBackgroundColor="@android:color/transparent"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="0dp">
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
 
         <TableLayout
             android:layout_width="wrap_content"
@@ -69,8 +68,8 @@
                     android:id="@+id/chatactivity_message_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hello"
                     android:background="@drawable/in_message_bg"
+                    android:text="Hello"
                     android:textAlignment="viewEnd"
                     android:textColor="#FFF"
                     android:textSize="20sp" />
@@ -97,8 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         app:cardBackgroundColor="@android:color/transparent"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="0dp">
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
 
         <TableLayout
             android:layout_width="wrap_content"
@@ -106,10 +105,14 @@
 
             <TableRow>
 
-                <VideoView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/chatactivity_video"/>
+                <com.halilibo.bettervideoplayer.BetterVideoPlayer
+                    android:id="@+id/chatactivity_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    app:bvp_autoPlay="false"
+                    app:bvp_disableControls="false">
+
+                </com.halilibo.bettervideoplayer.BetterVideoPlayer>
             </TableRow>
 
             <TableRow>

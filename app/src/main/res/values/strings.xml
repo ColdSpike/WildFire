@@ -22,4 +22,8 @@
     <string name="settings_change_status">Change Status</string>
     <string name="status_title">Change Status</string>
     <string name="allusers_title">All Users</string>
+
+    <string name="title_activity_view_fullscreen_video">ViewFullscreenVideo</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

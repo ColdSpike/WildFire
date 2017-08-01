@@ -14,25 +14,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-
-        <service
-            android:name=".NotificationClass">
+        android:theme="@style/AppTheme">
+        <service android:name=".NotificationClass">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".FirebaseMessagingService">
+        <service android:name=".FirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,16 +52,27 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ViewProfileActivity">
             <intent-filter>
-                <action android:name="chatla.TARGET.NOTIFICATION.FRIENDREQUEST"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="chatla.TARGET.NOTIFICATION.FRIENDREQUEST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ChatActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ViewImageMessageActivity"
-            android:parentActivityName=".ChatActivity"></activity>
+        <activity
+            android:name=".ViewImageMessageActivity"
+            android:parentActivityName=".ChatActivity" />
+        <activity
+            android:name=".ViewFullscreenVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_view_fullscreen_video"
+            android:parentActivityName=".ChatActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.makrandpawar.chatla.ChatActivity" />
+        </activity>
     </application>
-
 
 </manifest>

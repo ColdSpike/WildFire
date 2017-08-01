@@ -84,7 +84,7 @@ public class FriendsFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(FriendsFragmentViewHolder viewHolder, UsersFriendsFragmentModelClass model, int position) {
-                if (model.getName()!=null  && model.getChatroom()!=null && model.getImage()!=null) {
+                if (model.getName() != null && model.getChatroom() != null && model.getImage() != null) {
                     viewHolder.setName(model.getName());
                     viewHolder.setImage(getActivity().getApplicationContext(), model.getImage());
                     viewHolder.chatActive = model.getChatactive();
@@ -113,6 +113,22 @@ public class FriendsFragment extends Fragment {
 
                 final String friendRef = mRecyclerAdapter.getRef(position).toString().replace("https://chatla-1a62a.firebaseio.com/friends/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/", "");
 
+                FirebaseDatabase.getInstance().getReference().child("users").child(friendRef).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        viewHolder.status.setText(dataSnapshot.child("status").getValue().toString());
+                        if (dataSnapshot.child("statusonline").getValue().toString().equals("online"))
+                            viewHolder.userStatusOnline.setVisibility(View.VISIBLE);
+                        else
+                            viewHolder.userStatusOnline.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 viewHolder.sendMessage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -120,6 +136,7 @@ public class FriendsFragment extends Fragment {
                             Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
                             chatIntent.putExtra("CHATWITH", friendRef);
                             chatIntent.putExtra("CHATROOM", viewHolder.chatRoom);
+                            chatIntent.putExtra("CHATUSERNAME", viewHolder.displayName.getText().toString());
                             startActivity(chatIntent);
                         } else {
                             mDatabase.child(friendRef).child("chatactive").setValue(1);
@@ -140,7 +157,7 @@ public class FriendsFragment extends Fragment {
                                             databaseReference.child("chats").child(key).child("invalid").child("from").setValue("dummy");
                                             databaseReference.child("chats").child(key).child("invalid").child("message").setValue("dummy");
 
-                                            Map<String,String> map1 = new HashMap();
+                                            Map<String, String> map1 = new HashMap();
                                             map1.put("lastmessage", "has started a new chat.");
                                             map1.put("with", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -172,23 +189,6 @@ public class FriendsFragment extends Fragment {
                         Intent viewProfileIntent = new Intent(getActivity(), ViewProfileActivity.class);
                         viewProfileIntent.putExtra("VIEWPROFILE_USERREF", mRecyclerAdapter.getRef(position).toString().replace("https://chatla-1a62a.firebaseio.com/friends/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/", ""));
                         startActivity(viewProfileIntent);
-                    }
-                });
-
-                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(friendRef);
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child("statusonline").exists())
-                            if (dataSnapshot.child("statusonline").getValue().toString().equals("true"))
-                                viewHolder.userStatusOnline.setVisibility(View.VISIBLE);
-                        else
-                            viewHolder.userStatusOnline.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
             }
@@ -231,6 +231,7 @@ public class FriendsFragment extends Fragment {
         int chatActive;
         String chatRoom;
         ImageView userStatusOnline;
+        TextView status;
 
         public FriendsFragmentViewHolder(View itemView) {
             super(itemView);
@@ -242,6 +243,7 @@ public class FriendsFragment extends Fragment {
             cardView = (CardView) mView.findViewById(R.id.friendsfragment_cardview);
             relativeLayout = (RelativeLayout) mView.findViewById(R.id.friendsfragment_RL);
             userStatusOnline = (ImageView) mView.findViewById(R.id.friendsfragment_userstatusonline);
+            status = (TextView) mView.findViewById(R.id.friendsfragment_status);
         }
 
         public void setName(String name) {

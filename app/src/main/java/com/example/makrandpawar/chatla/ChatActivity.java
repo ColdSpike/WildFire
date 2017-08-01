@@ -9,10 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -34,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -53,6 +50,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.halilibo.bettervideoplayer.BetterVideoCallback;
+import com.halilibo.bettervideoplayer.BetterVideoPlayer;
 import com.irozon.sneaker.Sneaker;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -90,6 +89,7 @@ public class ChatActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String filemanagerstring = null;
     private String selectedImagePath = null;
+    private String chatUserName;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
 
         chatWith = getIntent().getStringExtra("CHATWITH");
         chatRoom = getIntent().getStringExtra("CHATROOM");
-        final String chatUserName = getIntent().getStringExtra("CHATUSERNAME");
+        chatUserName = getIntent().getStringExtra("CHATUSERNAME");
         getSupportActionBar().setTitle(chatUserName);
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(chatWith);
@@ -121,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
                 FirebaseDatabase.getInstance().getReference().child("ServerTime").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot1) {
-                        if (dataSnapshot.child("statusonline").getValue().toString().equals("true"))
+                        if (dataSnapshot.child("statusonline").getValue().toString().equals("online"))
                             getSupportActionBar().setSubtitle("online");
                         else {
                             getSupportActionBar().setSubtitle(TimeAgo.getTimeAgo(Long.parseLong(dataSnapshot.child("statusonline").getValue().toString()), Long.parseLong(dataSnapshot1.getValue().toString())));
@@ -258,15 +258,15 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(ChatActivityViewHolder viewHolder, UsersChatActivityModelClass model, int position) {
                 if (model.getFrom().equals("not dummy")) {
-                    viewHolder.setMessage("CHAT NO LONGER ACTIVE!", "other user", "", "text", "", ChatActivity.this);
+                    viewHolder.setMessage("CHAT NO LONGER ACTIVE!", "other user", "", "text", "", ChatActivity.this,"","");
                 } else if (model.getFrom().equals("dummy")) {
-                    viewHolder.setMessage("", "", "", "", "", ChatActivity.this);
+                    viewHolder.setMessage("", "", "", "", "", ChatActivity.this,"","");
                 } else {
                     Date date = new Date(Long.parseLong(model.getTimestamp()));
                     DateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
                     format.setTimeZone(TimeZone.getDefault());
                     String time = format.format(date);
-                    viewHolder.setMessage(model.getMessage(), model.getFrom(), time, model.getType(), model.getSeen(), ChatActivity.this);
+                    viewHolder.setMessage(model.getMessage(), model.getFrom(), time, model.getType(), model.getSeen(), ChatActivity.this, chatRoom, chatWith);
                 }
             }
 
@@ -302,13 +302,31 @@ public class ChatActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+
+                if (viewHolder.type.equals("video")){
+                   viewHolder.videoView.getToolbar().inflateMenu(R.menu.chatactivity_videoviewmenu);
+                    viewHolder.videoView.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if (item.getItemId() == R.id.videoview_fullscreen){
+                                Intent i = new Intent(ChatActivity.this,ViewFullscreenVideoActivity.class);
+                                i.putExtra("VIDEOURI",viewHolder.message);
+                                i.putExtra("CHATROOM",chatRoom);
+                                i.putExtra("CHATWITH",chatWith);
+                                i.putExtra("CHATUSERNAME",chatUserName);
+                                startActivity(i);
+                            }
+                            return false;
+                        }
+                    });
+                }
             }
         };
 
         mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
-    public static class ChatActivityViewHolder extends RecyclerView.ViewHolder {
+    public static class ChatActivityViewHolder extends RecyclerView.ViewHolder implements BetterVideoCallback {
         View mView;
         private TextView msgText;
         private CardView cardViewText;
@@ -319,7 +337,8 @@ public class ChatActivity extends AppCompatActivity {
         private String message;
         private CardView cardViewVideo;
         private TextView videoTime;
-        private VideoView videoView;
+        private BetterVideoPlayer videoView;
+        public String type;
 
 
         public ChatActivityViewHolder(View itemView) {
@@ -331,13 +350,14 @@ public class ChatActivity extends AppCompatActivity {
             imgTime = (TextView) mView.findViewById(R.id.chatactivity_time_image_right);
             msgImage = (ImageView) mView.findViewById(R.id.chatactivity_imageright);
             cardViewImage = (CardView) mView.findViewById(R.id.chatactivity_cardview_imageright);
-            videoView = (VideoView) mView.findViewById(R.id.chatactivity_video);
+            videoView = (BetterVideoPlayer) mView.findViewById(R.id.chatactivity_video);
             videoTime = (TextView) mView.findViewById(R.id.chatactivity_time_video);
             cardViewVideo = (CardView) mView.findViewById(R.id.chatactivity_cardview_video);
         }
 
-        public void setMessage(String message, String from, String time, String type, String seen, final Context context) {
+        public void setMessage(String message, String from, String time, String type, String seen, final Context context, final String chatRoom, final String chatWith) {
             this.message = message;
+            this.type = type;
             cardViewImage.setVisibility(View.GONE);
             cardViewText.setVisibility(View.GONE);
             cardViewVideo.setVisibility(View.GONE);
@@ -362,14 +382,13 @@ public class ChatActivity extends AppCompatActivity {
                     cardViewText.setLayoutParams(getCardViewParams(true));
                 } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
-                   // videoView.setBackground(context.getDrawable(R.drawable.in_message_bg));
+                    videoView.setBackground(context.getDrawable(R.drawable.in_message_bg));
                     videoTime.setText(time);
                     cardViewVideo.setLayoutParams(getCardViewParams(true));
-                    Uri uri = Uri.parse("android.resource://com.example.makrandpawar.chatla/"+R.raw.d);
-                    videoView.setVideoURI(uri);
-                    //
-                    videoView.requestFocus();
-                   videoView.start();
+                    final Uri uri = Uri.parse(message);
+                    videoView.setSource(uri);
+                    videoView.setCallback(this);
+                    videoView.setLoadingStyle(2);
                 }
             } else {
                 if (type == null) {
@@ -390,22 +409,13 @@ public class ChatActivity extends AppCompatActivity {
                     cardViewText.setLayoutParams(getCardViewParams(false));
                 } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
-                   // videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
+                     videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
                     videoTime.setText(time);
                     cardViewVideo.setLayoutParams(getCardViewParams(false));
-                    Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"DCIM/Camera/video.mp4");
-
-                    videoView.setVideoURI(uri);
-                    videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            Toast.makeText(context, "VIDEO PREPARED", Toast.LENGTH_SHORT).show();
-                            mp.setLooping(true);
-                            videoView.start();
-                        }
-                    });
-                   // videoView.requestFocus();
-                   // videoView.start();
+                    Uri uri = Uri.parse(message);
+                    videoView.setSource(uri);
+                    videoView.setCallback(this);
+                    videoView.setLoadingStyle(2);
                 }
             }
         }
@@ -418,6 +428,49 @@ public class ChatActivity extends AppCompatActivity {
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
             }
             return layoutParams;
+        }
+
+        @Override
+        public void onStarted(BetterVideoPlayer player) {
+
+        }
+
+        @Override
+        public void onPaused(BetterVideoPlayer player) {
+
+        }
+
+        @Override
+        public void onPreparing(BetterVideoPlayer player) {
+
+        }
+
+        @Override
+        public void onPrepared(BetterVideoPlayer player) {
+            player.setVolume((float) 1, (float) 1);
+        }
+
+        @Override
+        public void onBuffering(int percent) {
+
+            if (percent == 100) {
+                videoView.setHideControlsOnPlay(true);
+            }
+        }
+
+        @Override
+        public void onError(BetterVideoPlayer player, Exception e) {
+
+        }
+
+        @Override
+        public void onCompletion(BetterVideoPlayer player) {
+
+        }
+
+        @Override
+        public void onToggleControls(BetterVideoPlayer player, boolean isShowing) {
+
         }
     }
 

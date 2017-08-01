@@ -41,7 +41,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="italic"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/friendsfragment_image"
                 android:layout_toEndOf="@+id/friendsfragment_image" />
 
             <ImageView
@@ -53,6 +53,15 @@
                 android:layout_alignParentEnd="true"
                 android:visibility="invisible"
                 android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/friendsfragment_status"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/friendsfragment_name"
+                android:layout_toEndOf="@+id/friendsfragment_image"
+                android:text="Status" />
 
         </RelativeLayout>
 
