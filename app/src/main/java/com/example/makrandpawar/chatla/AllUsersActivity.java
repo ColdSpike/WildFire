@@ -85,13 +85,6 @@ public class AllUsersActivity extends AppCompatActivity {
 
         mDatabase.removeEventListener(getNameListener);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue("true");
-            }
-        }, 2000);
-
         mRecyclerAdapter = new FirebaseRecyclerAdapter<AllUsersModelClass, AllUsersViewHolder>(
                 AllUsersModelClass.class,
                 R.layout.allusersactivity_singleuser,
@@ -226,9 +219,17 @@ public class AllUsersActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        mDatabase.child("statusonline").setValue(ServerValue.TIMESTAMP);
+    protected void onResume() {
+        super.onResume();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+            FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+            FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue(ServerValue.TIMESTAMP);
     }
 
     public static class AllUsersViewHolder extends RecyclerView.ViewHolder {

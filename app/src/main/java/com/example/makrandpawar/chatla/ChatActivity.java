@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -22,7 +24,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,9 +32,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -46,10 +46,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -126,9 +124,8 @@ public class ChatActivity extends AppCompatActivity {
                         if (dataSnapshot.child("statusonline").getValue().toString().equals("true"))
                             getSupportActionBar().setSubtitle("online");
                         else {
-                            getSupportActionBar().setSubtitle(TimeAgo.getTimeAgo(Long.parseLong(dataSnapshot.child("statusonline").getValue().toString()),Long.parseLong(dataSnapshot1.getValue().toString())));
+                            getSupportActionBar().setSubtitle(TimeAgo.getTimeAgo(Long.parseLong(dataSnapshot.child("statusonline").getValue().toString()), Long.parseLong(dataSnapshot1.getValue().toString())));
                         }
-
                     }
 
                     @Override
@@ -205,43 +202,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                mutableData.setValue("true");
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
-            }
-        });
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue("true");
-//            }
-//        },2000);
+    protected void onResume() {
+        super.onResume();
+        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue("online");
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                mutableData.setValue(ServerValue.TIMESTAMP);
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
-            }
-        });
+    protected void onPause() {
+        super.onPause();
+        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue(ServerValue.TIMESTAMP);
     }
 
     private void sendMessage(String message, int messageType) {
@@ -326,7 +295,7 @@ public class ChatActivity extends AppCompatActivity {
                 viewHolder.cardViewImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(ChatActivity.this, ViewImageMessage.class);
+                        Intent intent = new Intent(ChatActivity.this, ViewImageMessageActivity.class);
                         intent.putExtra("IMAGEMESSAGE", viewHolder.message);
                         intent.putExtra("CHATROOMTOIMAGE", chatRoom);
                         intent.putExtra("CHATWITHTOIMAGE", chatWith);
@@ -367,7 +336,7 @@ public class ChatActivity extends AppCompatActivity {
             cardViewVideo = (CardView) mView.findViewById(R.id.chatactivity_cardview_video);
         }
 
-        public void setMessage(String message, String from, String time, String type, String seen, Context context) {
+        public void setMessage(String message, String from, String time, String type, String seen, final Context context) {
             this.message = message;
             cardViewImage.setVisibility(View.GONE);
             cardViewText.setVisibility(View.GONE);
@@ -393,13 +362,14 @@ public class ChatActivity extends AppCompatActivity {
                     cardViewText.setLayoutParams(getCardViewParams(true));
                 } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
-                    videoView.setBackground(context.getDrawable(R.drawable.in_message_bg));
+                   // videoView.setBackground(context.getDrawable(R.drawable.in_message_bg));
                     videoTime.setText(time);
                     cardViewVideo.setLayoutParams(getCardViewParams(true));
-                    Uri uri = Uri.parse(message);
+                    Uri uri = Uri.parse("android.resource://com.example.makrandpawar.chatla/"+R.raw.d);
                     videoView.setVideoURI(uri);
+                    //
                     videoView.requestFocus();
-                    videoView.start();
+                   videoView.start();
                 }
             } else {
                 if (type == null) {
@@ -420,13 +390,22 @@ public class ChatActivity extends AppCompatActivity {
                     cardViewText.setLayoutParams(getCardViewParams(false));
                 } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
-                    videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
+                   // videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
                     videoTime.setText(time);
                     cardViewVideo.setLayoutParams(getCardViewParams(false));
-                    Uri uri = Uri.parse(message);
+                    Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"DCIM/Camera/video.mp4");
+
                     videoView.setVideoURI(uri);
-                    videoView.requestFocus();
-                    videoView.start();
+                    videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            Toast.makeText(context, "VIDEO PREPARED", Toast.LENGTH_SHORT).show();
+                            mp.setLooping(true);
+                            videoView.start();
+                        }
+                    });
+                   // videoView.requestFocus();
+                   // videoView.start();
                 }
             }
         }
@@ -473,7 +452,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void startVideoPicker() {
-
         Intent videoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         videoIntent.setType("video/*");
         startActivityForResult(Intent.createChooser(videoIntent, "select video"), REQUEST_TAKE_GALLERY_VIDEO);
@@ -552,6 +530,8 @@ public class ChatActivity extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
+
+
 /* for video picker*/
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
@@ -569,6 +549,7 @@ public class ChatActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             String url = taskSnapshot.getDownloadUrl().toString();
+                            Toast.makeText(ChatActivity.this, "VIDEO UPLOADED", Toast.LENGTH_SHORT).show();
                             sendMessage(url, 2);
                         }
                     });
