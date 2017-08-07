@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.makrandpawar.chatla.ViewImageMessageActivity">
+    tools:context="com.chatting.makrandpawar.WildFire.ViewImageMessageActivity">
 <include layout="@layout/app_bar_layout"
     android:id="@+id/viewimagemessage_toolbar"></include>
 

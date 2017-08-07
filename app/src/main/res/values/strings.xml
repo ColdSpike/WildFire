@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChatLa</string>
+    <string name="app_name">WildFire</string>
     <string name="register_new_account">Register new account</string>
     <string name="register_display_name">Display Name</string>
     <string name="register_email">Email</string>
@@ -10,7 +10,7 @@
     <string name="text_logout">Log Out</string>
     <string name="create_a_new_account">Create a New Account</string>
     <string name="register_title">Create an Account</string>
-    <string name="main_title">ChatLa</string>
+    <string name="main_title">WildFire</string>
     <string name="login_to_account">Login To Account</string>
     <string name="login_to_your_account">Login to your Account</string>
     <string name="register_log_in">Log In</string>

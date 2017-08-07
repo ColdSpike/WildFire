@@ -8,49 +8,49 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".ChatLa"
+        android:name="com.chatting.makrandpawar.WildFire.WildFire"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".NotificationClass">
+        <service android:name="com.chatting.makrandpawar.WildFire.NotificationClass">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FirebaseMessagingService">
+        <service android:name="com.chatting.makrandpawar.WildFire.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.chatting.makrandpawar.WildFire.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity" />
+        <activity android:name="com.chatting.makrandpawar.WildFire.StartActivity" />
         <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity" />
+            android:name="com.chatting.makrandpawar.WildFire.RegisterActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.StartActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".SettingsActivity" />
+            android:name="com.chatting.makrandpawar.WildFire.LoginActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.StartActivity" />
+        <activity android:name="com.chatting.makrandpawar.WildFire.SettingsActivity" />
         <activity
-            android:name=".StatusActivity"
-            android:parentActivityName=".SettingsActivity" />
+            android:name="com.chatting.makrandpawar.WildFire.StatusActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.SettingsActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".AllUsersActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".ViewProfileActivity">
+            android:name="com.chatting.makrandpawar.WildFire.AllUsersActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.MainActivity" />
+        <activity android:name="com.chatting.makrandpawar.WildFire.ViewProfileActivity">
             <intent-filter>
                 <action android:name="chatla.TARGET.NOTIFICATION.FRIENDREQUEST" />
 
@@ -58,20 +58,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ChatActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.chatting.makrandpawar.WildFire.ChatActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.MainActivity" />
         <activity
-            android:name=".ViewImageMessageActivity"
-            android:parentActivityName=".ChatActivity" />
+            android:name="com.chatting.makrandpawar.WildFire.ViewImageMessageActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.ChatActivity" />
         <activity
-            android:name=".ViewFullscreenVideoActivity"
+            android:name="com.chatting.makrandpawar.WildFire.ViewFullscreenVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_view_fullscreen_video"
-            android:parentActivityName=".ChatActivity"
+            android:parentActivityName="com.chatting.makrandpawar.WildFire.ChatActivity"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.makrandpawar.chatla.ChatActivity" />
+                android:value="com.chatting.makrandpawar.WildFire.ChatActivity" />
         </activity>
     </application>
 
