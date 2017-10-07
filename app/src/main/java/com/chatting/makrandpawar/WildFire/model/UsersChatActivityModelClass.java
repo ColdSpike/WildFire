@@ -1,6 +1,6 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.model;
 
-class UsersChatActivityModelClass {
+public class UsersChatActivityModelClass {
     String message;
     String from;
     long timestamp;

@@ -17,6 +17,9 @@ public class ViewImageMessageActivity extends AppCompatActivity {
 private String message;
     private ImageView imageView;
     private Toolbar toolbar;
+
+    // full screen image viewing
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

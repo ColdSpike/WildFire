@@ -1,4 +1,4 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.helper;
 
 import android.app.Application;
 
@@ -17,7 +17,7 @@ public class WildFire extends Application {
     public void onCreate() {
 
         super.onCreate();
-
+        // enable firebase and picasso offline sync
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         Picasso.Builder builder = new Picasso.Builder(this);

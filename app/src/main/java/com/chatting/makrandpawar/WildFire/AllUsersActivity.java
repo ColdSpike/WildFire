@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.chatting.makrandpawar.WildFire.model.AllUsersModelClass;
 import com.example.makrandpawar.chatla.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,9 +61,11 @@ public class AllUsersActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //get database reference and allow offline sync
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabase.keepSynced(true);
 
+        //get name and image of the current user
         getNameListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,6 +100,7 @@ public class AllUsersActivity extends AppCompatActivity {
                 viewHolder.setStatus(model.getStatus());
                 viewHolder.setImage(getApplicationContext(), model.getThumbImage());
 
+                //check if the user has sent friend request
                 final String friendRef = mRecyclerAdapter.getRef(position).toString().replace("https://chatla-1a62a.firebaseio.com/users/", "");
 
                 final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("requests");
@@ -132,6 +136,7 @@ public class AllUsersActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            //check if user is already a friend
                             DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("friends");
                             databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -275,7 +280,7 @@ public class AllUsersActivity extends AppCompatActivity {
             }
         }
     }
-
+    //send friend request
     private class SendRequest extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -320,6 +325,7 @@ public class AllUsersActivity extends AppCompatActivity {
         mRecyclerAdapter.cleanup();
     }
 
+    //animate card expansion
     public static void expander(final View v) {
         v.measure(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
         final int targetHeight = v.getMeasuredHeight();

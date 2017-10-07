@@ -1,4 +1,4 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.fragments;
 
 
 import android.content.Intent;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.chatting.makrandpawar.WildFire.ChatActivity;
 import com.example.makrandpawar.chatla.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

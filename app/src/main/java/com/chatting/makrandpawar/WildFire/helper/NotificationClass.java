@@ -1,4 +1,4 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.helper;
 
 
 import com.google.firebase.auth.FirebaseAuth;

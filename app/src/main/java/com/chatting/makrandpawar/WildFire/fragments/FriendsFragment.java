@@ -1,4 +1,4 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.fragments;
 
 
 import android.content.Context;
@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chatting.makrandpawar.WildFire.ChatActivity;
+import com.chatting.makrandpawar.WildFire.ViewProfileActivity;
+import com.chatting.makrandpawar.WildFire.model.UsersFriendsFragmentModelClass;
 import com.example.makrandpawar.chatla.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;

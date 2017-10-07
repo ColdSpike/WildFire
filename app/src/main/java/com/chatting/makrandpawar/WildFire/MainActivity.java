@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.chatting.makrandpawar.WildFire.adapter.SectionsViewPagerAdapter;
 import com.example.makrandpawar.chatla.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,12 +49,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        //open chats fragment on app launch
         mViewPager.setCurrentItem(1, true);
+        //check if user is logged in otherwise send to login/register page
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             sendToStartActivity();
         }
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            //set users token id
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
             FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("tokenid").setValue(refreshedToken);
         }
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //set user status online to true
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
             FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue("online");
     }
@@ -69,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        //set user status online to false
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
             FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue(ServerValue.TIMESTAMP);
     }

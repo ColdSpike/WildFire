@@ -35,6 +35,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.chatting.makrandpawar.WildFire.helper.TimeAgo;
+import com.chatting.makrandpawar.WildFire.model.UsersChatActivityModelClass;
 import com.example.makrandpawar.chatla.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -115,7 +117,7 @@ public class ChatActivity extends AppCompatActivity {
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(chatWith);
         databaseReference.keepSynced(true);
-
+        // get online status for other user
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
@@ -142,7 +144,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
+        //check if chat has been deleted by other user
         final DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("chats").child(chatRoom).child("invalid");
         databaseReference1.keepSynced(true);
         databaseReference1.addValueEventListener(new ValueEventListener() {
@@ -174,7 +176,7 @@ public class ChatActivity extends AppCompatActivity {
         final Query[] query = {mDatabase.orderByChild("timestamp").limitToLast(LIMITVALUE + 1)};
         setRecyclerView(query[0]);
 
-
+        // refresh to load more messages, increments count by 5 messages
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -213,7 +215,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onPause();
         FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("statusonline").setValue(ServerValue.TIMESTAMP);
     }
-
+    // send message
     private void sendMessage(String message, int messageType) {
         if (!chatStillValid.equals("not dummy")) {
             if (!message.equals("")) {
@@ -304,17 +306,17 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
-                if (viewHolder.type.equals("video")){
-                   viewHolder.videoView.getToolbar().inflateMenu(R.menu.chatactivity_videoviewmenu);
+                if (viewHolder.type.equals("video")) {
+                    viewHolder.videoView.getToolbar().inflateMenu(R.menu.chatactivity_videoviewmenu);
                     viewHolder.videoView.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            if (item.getItemId() == R.id.videoview_fullscreen){
-                                Intent i = new Intent(ChatActivity.this,ViewFullscreenVideoActivity.class);
-                                i.putExtra("VIDEOURI",viewHolder.message);
-                                i.putExtra("CHATROOM",chatRoom);
-                                i.putExtra("CHATWITH",chatWith);
-                                i.putExtra("CHATUSERNAME",chatUserName);
+                            if (item.getItemId() == R.id.videoview_fullscreen) {
+                                Intent i = new Intent(ChatActivity.this, ViewFullscreenVideoActivity.class);
+                                i.putExtra("VIDEOURI", viewHolder.message);
+                                i.putExtra("CHATROOM", chatRoom);
+                                i.putExtra("CHATWITH", chatWith);
+                                i.putExtra("CHATUSERNAME", chatUserName);
                                 startActivity(i);
                             }
                             return false;
@@ -363,7 +365,7 @@ public class ChatActivity extends AppCompatActivity {
             cardViewText.setVisibility(View.GONE);
             cardViewVideo.setVisibility(View.GONE);
 
-
+            //set card properties based on msg type
             if (from.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
 
                 if (type == null) {
@@ -411,7 +413,7 @@ public class ChatActivity extends AppCompatActivity {
                     cardViewText.setLayoutParams(getCardViewParams(false));
                 } else if (type.equals("video")) {
                     cardViewVideo.setVisibility(View.VISIBLE);
-                     videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
+                    videoView.setBackground(context.getDrawable(R.drawable.out_message_bg));
                     videoTime.setText(time);
                     cardViewVideo.setLayoutParams(getCardViewParams(false));
                     Uri uri = Uri.parse(message);
@@ -431,7 +433,7 @@ public class ChatActivity extends AppCompatActivity {
             }
             return layoutParams;
         }
-
+        //video player controls
         @Override
         public void onStarted(BetterVideoPlayer player) {
 
@@ -585,16 +587,9 @@ public class ChatActivity extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
-
-
-/* for video picker*/
+        /* for video picker*/
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
-                //Uri selectedImageUri = data.getData();
-
-                // OI FILE Manager
-                //filemanagerstring = selectedImageUri.getPath();
-
                 // MEDIA GALLERY
                 selectedImagePath = getPath(data.getData());
                 if (selectedImagePath != null) {
@@ -619,8 +614,7 @@ public class ChatActivity extends AppCompatActivity {
         if (cursor != null) {
             // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
             // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
         } else
@@ -639,7 +633,7 @@ public class ChatActivity extends AppCompatActivity {
                 // required permissions granted, start crop image activity
                 startCropImageActivity(mCropImageUri);
             } else {
-                // Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+                // Cancelling, required permissions are not granted
                 Sneaker.with(ChatActivity.this).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT).setTitle("Permission Denied").setMessage("Cancelling, required permissions are not granted!").sneakError();
             }
         }
@@ -648,7 +642,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 CropImage.startPickImageActivity(ChatActivity.this);
             } else {
-                //Toast.makeText(this, "Permission denied. Camera option not available", Toast.LENGTH_SHORT).show();
+                //Permission denied. Camera option not available
                 Sneaker.with(ChatActivity.this).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT).setTitle("Permission Denied").setMessage("Camera option not available!").sneakError();
                 CropImage.startPickImageActivity(ChatActivity.this);
             }

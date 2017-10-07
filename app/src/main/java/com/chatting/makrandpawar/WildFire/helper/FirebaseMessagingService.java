@@ -1,4 +1,4 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.helper;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,7 +19,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
+        // check what kind of notification to display
         String notificationTyppe = remoteMessage.getData().get("notificationType");
 
         if (notificationTyppe.equals("friendRequest")){

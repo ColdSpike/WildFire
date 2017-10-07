@@ -1,4 +1,4 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.model;
 
 
 public class UsersRequestFragmentModelClass {

@@ -1,6 +1,6 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.model;
 
-class UsersFriendsFragmentModelClass {
+public class UsersFriendsFragmentModelClass {
     String name;
     String image;
     int chatactive;

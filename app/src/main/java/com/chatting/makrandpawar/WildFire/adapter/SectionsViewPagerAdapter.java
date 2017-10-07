@@ -1,11 +1,15 @@
-package com.chatting.makrandpawar.WildFire;
+package com.chatting.makrandpawar.WildFire.adapter;
 
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-class SectionsViewPagerAdapter extends FragmentPagerAdapter {
+import com.chatting.makrandpawar.WildFire.fragments.ChatsFragment;
+import com.chatting.makrandpawar.WildFire.fragments.FriendsFragment;
+import com.chatting.makrandpawar.WildFire.fragments.RequestsFragment;
+
+public class SectionsViewPagerAdapter extends FragmentPagerAdapter {
 
     public SectionsViewPagerAdapter(FragmentManager fm) {
         super(fm);
