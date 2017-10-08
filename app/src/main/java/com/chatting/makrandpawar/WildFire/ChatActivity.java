@@ -223,6 +223,7 @@ public class ChatActivity extends AppCompatActivity {
                 map.put("message", message);
                 map.put("from", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 map.put("timestamp", ServerValue.TIMESTAMP);
+                map.put("to",chatWith);
                 map.put("seen", "no");
                 if (messageType == 1)
                     map.put("type", "image");

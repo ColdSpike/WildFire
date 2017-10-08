@@ -12,6 +12,8 @@
     * Friend request feature.
     * Allows sending Images and Videos.
     * User's last seen online time.
+    * New message notification.
+    * Informs when other user has deleted the chat.
 4. **Tools**
     * Android Studio
     * Firebase
